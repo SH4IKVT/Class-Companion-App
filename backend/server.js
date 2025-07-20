@@ -1,24 +1,29 @@
 const express = require('express');
 const cors = require('cors');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const connectDb = require('./config/db');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 4080;
+const port = 4080;
 
 // Middlewares
 app.use(express.json());
-app.use(cors());
-app.use(morgan('dev'));
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
+// app.use(morgan('dev'));
+app.use(cookieParser())
 
 // Routes
 app.use('/login', require('./routes/login'));
 app.use('/register', require('./routes/register'));
-
-app.get('/', (req, res) => {
-    res.send('Backend is running');
+app.get('/',require('./middleware/verifyJwt'), (req, res) => {
+    res.json({upStatus:'Backend is running',user:req.user});
 });
+app.use('/logout', require('./routes/logout'));
 
 // Start server after DB connection
 connectDb().then(() => {

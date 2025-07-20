@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Link,useNavigate} from "react-router-dom";
+import axios from 'axios';
+import { useAtom } from "jotai";
+import { userAtom } from "../lib/atom";
 
 function Signup() {
     const [username, setName] = useState('');
@@ -9,6 +12,7 @@ function Signup() {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [reg,setReg]=useState(false);
+    const [user, setUser] = useAtom(userAtom);
     
     const navigate=useNavigate();
 
@@ -23,34 +27,28 @@ function Signup() {
         setIsLoading(true);
 
         try {
-            const res = await fetch('http://localhost:4080/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, email, password })
+            const res = await axios.post('http://localhost:4080/register', {
+                 username, email, password 
+            },{
+                withCredentials: true
             });
 
-            if (!res.ok) {
-                const data = await res.json();
-                throw new Error(data.message || 'Registration failed');
-            }
-
-            const data = await res.json();
+            const data = res.data;
             console.log('Registration successful:', data);
             alert('Registration successful!');
-            if(data){
                 setReg(true);
-                navigate('/login');
-            }
+                setUser(data.user);
+                navigate('/home');
         } catch (err) {
-            console.error('Registration failed:', err.message);
-            setError(err.message || 'Failed to connect to the server. Please try again.');
+            console.error('Registration failed:', err);
+            setError(err?.response?.data?.message || 'Failed to connect to the server. Please try again.');
         } finally {
             setIsLoading(false);
         }
     };
-
+    if (user) {
+        return navigate('/home');
+    }
     return (
         <div className="min-h-screen w-screen bg-gradient-to-b from-neutral-900 via-neutral-950 to-black flex items-center justify-center">
             <form onSubmit={handleSubmit} className="bg-black shadow-[0_0_10px_#f0f,0_0_20px_#f0f] p-10 rounded w-full max-w-sm flex flex-col gap-4">

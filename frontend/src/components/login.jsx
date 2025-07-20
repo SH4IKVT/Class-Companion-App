@@ -1,46 +1,40 @@
+import axios from "axios";
+import { useAtom } from "jotai";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { userAtom } from "../lib/atom";
 
 function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [log, setLog] = useState(false);
+  const [user, setUser] = useAtom(userAtom);
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:4080/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
+      const response = await axios.post('http://localhost:4080/login',
+        {
+          email, password
+        }, {
+        withCredentials: true
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
-
-      console.log('Login successful:', data);
+      const data = await response.data;
       alert('Login successful!');
-      if (data) {
-        setLog(true);
-        //change it to the /dashboard
-        navigate('/home')
-      }
-      // Save token/user to localStorage/context here
-      localStorage.setItem('token', data.token);
-
+      setLog(true);
+      setUser(data.user);
+      //change it to the /dashboard
+      navigate('/home');
     } catch (err) {
-      console.error('Login failed:', err.message);
-      setError(err.message);
+      setError(err?.response?.data?.message || 'Failed to connect to the server. Please try again.');
     }
   };
-
+  if (user) {
+    return navigate('/home');
+  }
   return (
     <div className="min-h-screen w-screen bg-gradient-to-b from-neutral-900 via-neutral-950 to-black flex items-center justify-center">
       <form
@@ -53,10 +47,10 @@ function Login() {
 
         <input
           type="text"
-          placeholder="Username"
+          placeholder="Enter email"
           required
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="px-4 py-2 rounded border text-white bg-gray-800"
         />
 
@@ -75,7 +69,11 @@ function Login() {
         >
           Login
         </button>
+      <p className="text-white text-center">
+        Don't have an account? <Link to="/signup" className="text-purple-400 hover:underline">Sign Up</Link>
+      </p>
       </form>
+
     </div>
   );
 }
