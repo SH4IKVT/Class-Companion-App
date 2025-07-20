@@ -1,27 +1,26 @@
 {
-  "name": "backend",
+  "name": "server",
   "version": "1.0.0",
-  "main": "src/index.js",
-  "type": "module",
-  "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
-  },
-  "keywords": [],
-  "author": "",
+  "description": "server for project",
   "license": "ISC",
-  "description": "",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
-    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.17.0",
     "mongoose": "^8.16.3",
-    "multer": "^2.0.1"
-  },
-  "devDependencies": {
+    "nodemailer": "^7.0.5",
     "nodemon": "^3.1.10"
   }
 }
