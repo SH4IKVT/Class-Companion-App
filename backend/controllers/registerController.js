@@ -38,7 +38,7 @@ registerUser=async (req,res)=>{
         res.status(200).json({
             success:true,
             message:'registration in successful',
-            user:{username:user.username,email:user.email}
+            user:{username:user.username,email:user.email, type:user.type}
         });
     }catch(err){
         console.error(err);
