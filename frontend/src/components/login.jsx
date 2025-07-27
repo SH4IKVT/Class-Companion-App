@@ -27,7 +27,12 @@ function Login() {
       setLog(true);
       setUser(data.user);
       //change it to the /dashboard
-      navigate('/home');
+      if(data.type.toLowerCase() ==='student'){
+        //change url to student dashboard
+        navigate('/home');
+      }else if(data.type.toLowerCase()==='teacher'){
+       //change to teacher dashboard 
+      }
     } catch (err) {
       setError(err?.response?.data?.message || 'Failed to connect to the server. Please try again.');
     }
