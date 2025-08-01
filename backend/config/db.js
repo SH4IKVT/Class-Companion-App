@@ -1,5 +1,5 @@
 const mongoose=require('mongoose');
-MONGO_URL='mongodb+srv://kushalmondal349:BITAJnwc3J0XnsKr@cluster0.ohlc4ta.mongodb.net/'
+MONGO_URL='mongodb+srv://kushal:Dc75uxu4mBENNlhC@cluster0.ohlc4ta.mongodb.net/'
 const connectDb=async ()=>{
     try{
         await mongoose.connect(MONGO_URL,{
