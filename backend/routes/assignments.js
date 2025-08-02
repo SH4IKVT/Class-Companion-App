@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const verifyJwt = require("../middleware/verifyJwt");
-const { uploadAssignments } = require("../middleware/uploadAssignments");
+const { uploadAssignments } = require("../middleware/UploadAssignments");
 const { postAssignment, getAssignments } = require("../controllers/assignmentsController");
 
 router.post("/upload", verifyJwt, uploadAssignments.single("file"), postAssignment);
