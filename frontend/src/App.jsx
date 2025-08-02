@@ -4,6 +4,10 @@ import Signup from './components/signup';
 import Login from './components/login'
 import Navbar from './components/navbar'
 import Home from './pages/home';
+import NotesLibrary from './pages/NotesLibrary';
+import StudentAssignments from './pages/StudentAssignments';
+import TeacherAssignments from './pages/TeacherAssignments';
+
 
 
 function App() {
@@ -19,7 +23,12 @@ function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/signup" element={<Signup/>} />
-        </Routes><Home/>
+          {/* Notes */}
+        <Route path="/notes" element={<NotesLibrary />} />  
+          {/* Assignments */}
+         <Route path="/student/assignments" element={<StudentAssignments />} />
+        <Route path="/teacher/assignments" element={<TeacherAssignments />} />
+        </Routes>
         </BrowserRouter>
        
       </div>
