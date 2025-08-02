@@ -42,7 +42,7 @@ export default function Navbar() {
         
     },[user])
     return (
-        <nav className="sticky top-0 shadow-yellow-300 bg-purple-900 w-screen">
+        <nav className="sticky top-0 shadow-yellow-300 bg-purple-900 w-screen z-50">
             <div className="flex gap-10 justify-between p-4 items-center">
                 <div className="flex items-center">
                     <Link to={'/'}><h3 className="font-serif text-2xl text-white/90 font-bold ml-20 flex items-center gap-1">
