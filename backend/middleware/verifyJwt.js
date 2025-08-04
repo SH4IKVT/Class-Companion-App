@@ -7,6 +7,8 @@ const checkToken = (req, res, next) => {
     try {
         //verify the token and proceed with the route
         const decoded=jwt.verify(token,process.env.JWT_KEY||'123');
+        console.log(decoded);
+        
         req.user=decoded;
         next();
     } catch (err) {

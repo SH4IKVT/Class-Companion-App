@@ -9,6 +9,9 @@ import StudentAssignments from './pages/StudentAssignments';
 import TeacherAssignments from './pages/TeacherAssignments';
 
 
+import Doubts from './pages/Doubts'; 
+
+// Inside <Routes> in App.jsx
 
 function App() {
 
@@ -19,8 +22,8 @@ function App() {
         <BrowserRouter>
         <Navbar/>
         <Routes>
-         
         <Route path="/" element={<Home/>} />
+        <Route path="/doubts" element={<Doubts />} />
         <Route path="/login" element={<Login/>} />
         <Route path="/signup" element={<Signup/>} />
           {/* Notes */}

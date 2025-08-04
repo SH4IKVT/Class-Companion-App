@@ -52,7 +52,6 @@ export default function Navbar() {
                 </div>
                 <div className="flex items-center ">
                     <ul className="flex gap-10 list-none ">
-
                     {user?.type === 'teacher' && (
                         <>
                             <li><Link to="/notes"><span className="text-black">Notes</span></Link></li>
@@ -66,9 +65,9 @@ export default function Navbar() {
                         <li><Link to="/student/assignments"><span className="text-black">Assignments</span></Link></li>
                     </>
                     )}
-
-                        <li><Link to="" ><span className="flex items-center gap-1 text-black">Doubts</span> </Link></li>
-                        <li><Link to="" ><span className="flex items-center gap-1 text-black">Dashboard</span> </Link></li>
+                        <li ><Link to="" ><span className="flex items-center gap-1 text-black">Notes</span> </Link></li>
+                        <li><Link to="/doubts"><span className="flex items-center gap-1 text-black">Doubts</span></Link></li>
+                         <li><Link to="" ><span className="flex items-center gap-1 text-black">Dashboard</span> </Link></li>
                         <li><Link to="" ><span className="flex items-center gap-1 text-black">Notifications</span> </Link></li>
 
                     </ul>
