@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useAtom } from 'jotai';
 import { userAtom } from '../lib/atom';
 
+import NotificationBell from './NotificationBell' 
+
 export default function Navbar() {
     const Navigate = useNavigate();
     const [user, setUser] = useAtom(userAtom);
@@ -57,6 +59,7 @@ export default function Navbar() {
                         <>
                             <li><Link to="/notes"><span className="text-black">Notes</span></Link></li>
                             <li><Link to="/teacher/assignments"><span className="text-black">Assignments</span></Link></li>
+                            <li><Link to="/announcements"><span className="text-black">Announcements</span></Link></li>
                         </>
                     )}
 
@@ -64,6 +67,7 @@ export default function Navbar() {
                         <>
                         <li><Link to="/notes"><span className="text-black">Notes</span></Link></li>
                         <li><Link to="/student/assignments"><span className="text-black">Assignments</span></Link></li>
+                        <li><Link to="/announcements"><span className="text-black">Announcements</span></Link></li>
                     </>
                     )}
 
@@ -73,6 +77,7 @@ export default function Navbar() {
 
                     </ul>
                 </div>
+                <NotificationBell />
                 {
                     !!!user?
                     <div className="flex items-center ">
