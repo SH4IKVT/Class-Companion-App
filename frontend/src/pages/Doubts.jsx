@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import {userAtom} from '../lib/atom'
+import { userAtom } from '../lib/atom'
+import Chatbox from "Chatbox";
+
+
 
 const Doubts = () => {
   const [doubts, setDoubts] = useState([]);
   const [newDoubt, setNewDoubt] = useState("");
   const [replyInputs, setReplyInputs] = useState({});
+  const [isBotOpen, setIsBotOpen] = useState(false);
+
   const [user] = useAtom(userAtom);
   const fetchDoubts = async () => {
     try {
@@ -68,24 +73,24 @@ const Doubts = () => {
         {/* New Question */}
         {
           user?.type === "student" && (
-             <div className="border border-black/10 p-4 px-6 mb-6 rounded-xl bg-zinc-800/5 shadow-xl shadow-zinc-500/20">
-             <h6 className="text-2xl font-bold mb-4 text-center text-gray-800">Ask a Doubt</h6>
-            <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
-          <input
-            type="text"
-            value={newDoubt}
-            onChange={(e) => setNewDoubt(e.target.value)}
-            className="flex-1 text-black border border-black rounded-xl ho p-2"
-            placeholder="Type your doubt..."
-            required
-            />
-          <button
-            type="submit"
-            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-            >
-            Ask
-          </button>
-        </form>
+            <div className="border border-black/10 p-4 px-6 mb-6 rounded-xl bg-zinc-800/5 shadow-xl shadow-zinc-500/20">
+              <h6 className="text-2xl font-bold mb-4 text-center text-gray-800">Ask a Doubt</h6>
+              <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
+                <input
+                  type="text"
+                  value={newDoubt}
+                  onChange={(e) => setNewDoubt(e.target.value)}
+                  className="flex-1 text-black border border-black rounded-xl ho p-2"
+                  placeholder="Type your doubt..."
+                  required
+                />
+                <button
+                  type="submit"
+                  className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+                >
+                  Ask
+                </button>
+              </form>
             </div>
           )
         }
@@ -138,7 +143,20 @@ const Doubts = () => {
           ))}
         </div>
       </div>
+      <div className="fixed bottom-6 right-6 z-50">
+        <button
+          onClick={() => setShowBot(true)}
+          className="bg-indigo-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-indigo-700"
+          title="Ask Chatbot"
+        >
+          🤖
+        </button>
+      </div>
+
+      {/* Chatbox Modal */}
+      {showBot && <Chatbox onClose={() => setShowBot(false)} />}
     </div>
+
   );
 };
 
