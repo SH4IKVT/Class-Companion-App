@@ -117,6 +117,10 @@ const Doubts = () => {
               ))}
 
               {/* Reply input */}
+              {
+                user?.type === "teacher" && (
+                                <form action="" onSubmit={e=>e.preventDefault()}>
+
               <div className="flex gap-2 items-center">
                 <input
                   type="text"
@@ -126,14 +130,17 @@ const Doubts = () => {
                   onChange={(e) =>
                     handleReplyChange(doubt._id, e.target.value)
                   }
-                />
+                  />
                 <button
                   onClick={() => handleReply(doubt._id)}
                   className="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600"
-                >
+                  >
                   Reply
                 </button>
               </div>
+                  </form>
+                )
+              }
             </div>
           ))}
         </div>

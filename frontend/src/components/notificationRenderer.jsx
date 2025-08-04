@@ -1,8 +1,27 @@
 import React from 'react'
 import { motion } from 'motion/react'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { userAtom } from '../lib/atom';
+import { useAtom } from 'jotai';
 
 export default function NotificationRenderer({ notificationOpen, notificationsArr, setNotificationsArr }) {
+    const Navigate = useNavigate();
+    const [user, setUser] = useAtom(userAtom);
+    const handleNotificationClick = (e, notification) => {
+        {
+            handleMarkAsRead(e, notification)
+            if (notification.type.toString().toLowerCase() === "doubt") {
+                Navigate(`/doubts`)
+            }else if (notification.type.toString().toLowerCase() === "assignment") {
+                Navigate(`/${user?.type.toLowerCase()}/assignments`)
+            }else if (notification.type.toString().toLowerCase() === "note") {                
+                Navigate(`/notes`)
+            }else{
+
+            }
+        }
+    }
     const handleMarkAsRead = async (e, notification) => {
         e.stopPropagation();
         try {
@@ -32,7 +51,7 @@ export default function NotificationRenderer({ notificationOpen, notificationsAr
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -20, scale: 0.95 }}
                     transition={{ duration: 0.25, ease: 'easeInOut' }}
-                    className="absolute w-[400px] right-0 top-16 bg-zinc-800/80 pt-2 pb-4 px-3 rounded-xl shadow-zinc-950 shadow-xl border-zinc-800/65 border-2 z-20 flex flex-col justify-center gap-2"
+                    className="absolute w-[400px] right-0 top-16 bg-zinc-800 pt-2 pb-4 px-3 rounded-xl shadow-zinc-950 shadow-xl border-zinc-800/65 border-2 z-20 flex flex-col justify-center gap-2"
                 >
                     <h2 className="font-bold text-xl py-2 text-white/80 ">Notifications</h2>
                     <div className='flex flex-col gap-3 max-h-[70vh] overflow-y-scroll py-2 pr-2 pl-1'>
@@ -50,8 +69,8 @@ export default function NotificationRenderer({ notificationOpen, notificationsAr
                                     <motion.div whileHover={{ translateY: '-2px', scale: 1.01 }} initial={{ opacity: 0, y: 10 }}
                                         viewport={{ once: true }}
                                         whileInView={{ opacity: 1, y: 0 }}
-                                        onClick={e => { handleMarkAsRead(e, notification) }} key={index} className={`cursor-pointer border  p-2 px-3 rounded-md  hover:shadow-zinc-900 hover:shadow-lg transition-shadow duration-300 ${notification.isRead
-                                            ? 'border-zinc-700'
+                                        onClick={e => handleNotificationClick(e, notification)} key={index} className={`cursor-pointer border  p-2 px-3 rounded-md  hover:shadow-zinc-900 hover:shadow-lg transition-shadow duration-300 ${notification.isRead
+                                            ? 'border-zinc-700 bg-zinc-800'
                                             : 'border-0 border-l-4 border-blue-400 bg-zinc-900 hover:bg-zinc-800'
                                             }`}>
                                         <h3 className="text-white font-semibold text-sm md:text-base">{notification.type}</h3>

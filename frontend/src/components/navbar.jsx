@@ -99,7 +99,6 @@ export default function Navbar() {
                     )}
                         <li><Link to="/doubts"><span className="flex items-center gap-1 text-black">Doubts</span></Link></li>
                          <li><Link to="" ><span className="flex items-center gap-1 text-black">Dashboard</span> </Link></li>
-                        <li><Link to="" ><span className="flex items-center gap-1 text-black">Notifications</span> </Link></li>
                     </ul>
                 </div>
                 {

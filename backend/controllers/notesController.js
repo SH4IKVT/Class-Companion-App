@@ -1,3 +1,4 @@
+const sendNotification = require("../lib/sendNotification");
 const Note = require("../models/Note");
 
 exports.postNote = async (req, res) => {
@@ -25,6 +26,7 @@ exports.postNote = async (req, res) => {
         role: req.user.type
       }
     });
+    sendNotification("Note", title, note._id, req.user);
 
     res.status(201).json(note);
   } catch (err) {
