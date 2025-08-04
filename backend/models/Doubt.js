@@ -1,13 +1,32 @@
 const mongoose = require("mongoose");
 
 const doubtSchema = new mongoose.Schema({
-  question: String,
+  question: {
+    type: String,
+    required: true,
+  },
   askedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
-  reply: String,
-  answeredBy: String,
+  replies: [
+    {
+      message: {
+        type: String,
+        required: true,
+      },
+      repliedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      timestamp: {
+        type: Date,
+        default: Date.now,
+      }
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
