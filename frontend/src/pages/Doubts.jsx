@@ -200,75 +200,214 @@
 //   );
 // }
 
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
+
+// const Doubts = () => {
+//   const [doubts, setDoubts] = useState([]);
+//   const [newDoubt, setNewDoubt] = useState("");
+
+//   // 🔹 useEffect to fetch doubts on page load
+//   useEffect(() => {
+//     fetch("http://localhost:4080/api/doubts/my", {
+//       method: "GET",
+//       credentials: "include", // includes cookies for authentication
+//     })
+//       .then((res) => res.json())
+//       .then((data) => {
+//         setDoubts(data);
+//       })
+//       .catch((err) => console.error("Error loading doubts:", err));
+//   }, []);
+
+//   // 🔸 Function to handle new doubt submission
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+
+//     fetch("http://localhost:4080/api/doubts", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       credentials: "include",
+//       body: JSON.stringify({ question: newDoubt }),
+//     })
+//       .then((res) => res.json())
+//       .then((data) => {
+//         setDoubts([data, ...doubts]); // show the new one immediately
+//         setNewDoubt("");
+//       })
+//       .catch((err) => console.error("Failed to submit doubt:", err));
+//   };
+
+//   return (
+//     <div className="max-w-2xl mx-auto px-4 py-6">
+//       <h1 className="text-2xl font-semibold mb-4 text-gray-800">Your Doubts</h1>
+
+//       <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
+//         <input
+//           type="text"
+//           value={newDoubt}
+//           onChange={(e) => setNewDoubt(e.target.value)}
+//           placeholder="Ask a doubt..."
+//           className="flex-1 p-2 border border-indigo-300 rounded"
+//           required
+//         />
+//         <button
+//           type="submit"
+//           className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+//         >
+//           Ask
+//         </button>
+//       </form>
+
+//       <div className="space-y-4">
+//         {doubts.map((doubt) => (
+//           <div key={doubt._id} className="p-4 bg-indigo-100 rounded shadow">
+//             <p className="text-gray-800 font-medium">Q: {doubt.question}</p>
+//             {doubt.reply && (
+//               <p className="text-sm text-indigo-700 mt-2">👨‍🏫 Teacher: {doubt.reply}</p>
+//             )}
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Doubts;
+import React, { useEffect, useState } from "react";
 
 const Doubts = () => {
   const [doubts, setDoubts] = useState([]);
   const [newDoubt, setNewDoubt] = useState("");
+  const [replyInputs, setReplyInputs] = useState({});
 
-  // 🔹 useEffect to fetch doubts on page load
+  const fetchDoubts = async () => {
+    try {
+      const res = await fetch("http://localhost:4080/api/doubts", {
+        credentials: "include",
+      });
+      const data = await res.json();
+      setDoubts(data);
+    } catch (err) {
+      console.error("Error loading doubts:", err);
+    }
+  };
+
   useEffect(() => {
-    fetch("http://localhost:4080/api/doubts/my", {
-      method: "GET",
-      credentials: "include", // includes cookies for authentication
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setDoubts(data);
-      })
-      .catch((err) => console.error("Error loading doubts:", err));
+    fetchDoubts();
   }, []);
 
-  // 🔸 Function to handle new doubt submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:4080/api/doubts", {
+    const res = await fetch("http://localhost:4080/api/doubts", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ question: newDoubt }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setDoubts([data, ...doubts]); // show the new one immediately
-        setNewDoubt("");
-      })
-      .catch((err) => console.error("Failed to submit doubt:", err));
+    });
+
+    const data = await res.json();
+    setDoubts([data, ...doubts]);
+    setNewDoubt("");
+  };
+
+  const handleReplyChange = (id, value) => {
+    setReplyInputs({ ...replyInputs, [id]: value });
+  };
+
+  const handleReply = async (id) => {
+    const message = replyInputs[id];
+    if (!message?.trim()) return;
+
+    try {
+      const res = await fetch(`http://localhost:4080/api/doubts/${id}/reply`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ message }),
+      });
+
+      const updated = await res.json();
+
+      setDoubts((prev) =>
+        prev.map((doubt) => (doubt._id === updated._id ? updated : doubt))
+      );
+      setReplyInputs({ ...replyInputs, [id]: "" });
+    } catch (err) {
+      console.error("Failed to post reply", err);
+    }
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-semibold mb-4 text-gray-800">Your Doubts</h1>
+    <div className="min-h-screen bg-indigo-100 px-4 py-6">
+      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow p-6 flex flex-col">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">💬 Doubts Chat</h2>
 
-      <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
-        <input
-          type="text"
-          value={newDoubt}
-          onChange={(e) => setNewDoubt(e.target.value)}
-          placeholder="Ask a doubt..."
-          className="flex-1 p-2 border border-indigo-300 rounded"
-          required
-        />
-        <button
-          type="submit"
-          className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-        >
-          Ask
-        </button>
-      </form>
+        <div className="flex gap-2 mb-4">
+          <input
+            type="text"
+            value={newDoubt}
+            onChange={(e) => setNewDoubt(e.target.value)}
+            className="flex-1 border rounded p-2"
+            placeholder="Type your doubt..."
+          />
+          <button
+            onClick={handleSubmit}
+            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+          >
+            Ask
+          </button>
+        </div>
 
-      <div className="space-y-4">
-        {doubts.map((doubt) => (
-          <div key={doubt._id} className="p-4 bg-indigo-100 rounded shadow">
-            <p className="text-gray-800 font-medium">Q: {doubt.question}</p>
-            {doubt.reply && (
-              <p className="text-sm text-indigo-700 mt-2">👨‍🏫 Teacher: {doubt.reply}</p>
-            )}
-          </div>
-        ))}
+        {/* Chat Container */}
+        <div className="flex flex-col gap-6 overflow-y-auto max-h-[600px] pr-2">
+          {doubts.map((doubt) => (
+            <div key={doubt._id} className="space-y-3">
+              {/* Question Bubble */}
+              <div className="flex justify-start">
+                <div className="bg-indigo-200 px-4 py-2 rounded-xl rounded-tl-none max-w-[75%] shadow text-gray-800">
+                  <p className="text-sm font-semibold">
+                    {doubt.askedBy?.email || "Student"}:
+                  </p>
+                  <p>{doubt.question}</p>
+                </div>
+              </div>
+
+              {/* Replies */}
+              {doubt.replies?.map((reply, idx) => (
+                <div key={idx} className="flex justify-end">
+                  <div className="bg-green-100 px-4 py-2 rounded-xl rounded-tr-none max-w-[75%] shadow text-gray-800">
+                    <p className="text-sm font-semibold">
+                      {reply.repliedBy?.email || "Teacher"}:
+                    </p>
+                    <p>{reply.message}</p>
+                  </div>
+                </div>
+              ))}
+
+              {/* Reply Input */}
+              <div className="flex gap-2 items-center">
+                <input
+                  type="text"
+                  placeholder="Reply to this doubt..."
+                  className="flex-1 border rounded px-3 py-1"
+                  value={replyInputs[doubt._id] || ""}
+                  onChange={(e) =>
+                    handleReplyChange(doubt._id, e.target.value)
+                  }
+                />
+                <button
+                  onClick={() => handleReply(doubt._id)}
+                  className="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600"
+                >
+                  Reply
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
