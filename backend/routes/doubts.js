@@ -34,6 +34,9 @@ router.post("/", verifyJwt, async (req, res) => {
 // Post a reply to a specific doubt
 router.post("/:id/reply", verifyJwt, async (req, res) => {
   const { message } = req.body;
+  if (!message) {
+    return res.status(400).json({ error: "Message is required" });
+  }
   try {
     const updated = await Doubt.findByIdAndUpdate(
       req.params.id,

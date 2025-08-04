@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+
 const Doubts = () => {
   const [doubts, setDoubts] = useState([]);
   const [newQuestion, setNewQuestion] = useState("");
   const [replyInputs, setReplyInputs] = useState({});
-
+  const [user, setUser] = useAtom(userAtom);
   const fetchDoubts = async () => {
     try {
       const res = await axios.get("http://localhost:4080/doubts", {
@@ -52,26 +53,15 @@ const Doubts = () => {
       console.error("Failed to reply", err);
     }
   };
-
+  useEffect(() => {
+    console.log(user);
+    
+  },[user])
   return (
     <div className="max-w-4xl mx-auto p-4 bg-indigo-100 min-h-screen">
       <h1 className="text-2xl font-semibold text-gray-800 mb-4">Ask a Doubt</h1>
 
-      <div className="flex gap-2 mb-6">
-        <input
-          className="flex-1 p-2 rounded border focus:outline-none"
-          placeholder="Type your doubt..."
-          value={newQuestion}
-          onChange={(e) => setNewQuestion(e.target.value)}
-        />
-        <button
-          className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-500"
-          onClick={handleAsk}
-        >
-          Ask
-        </button>
-      </div>
-
+      
       <div className="space-y-6">
         {doubts.map((doubt) => (
           <div
