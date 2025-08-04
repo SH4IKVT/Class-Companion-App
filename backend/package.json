@@ -23,7 +23,8 @@
     "multer": "^2.0.2",
     "mongoose": "^8.17.0",
     "nodemailer": "^7.0.5",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+     "ws": "^8.18.3"
   },
   "keywords": []
 }

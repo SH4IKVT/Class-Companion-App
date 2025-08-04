@@ -7,8 +7,7 @@ import Home from './pages/home';
 import NotesLibrary from './pages/NotesLibrary';
 import StudentAssignments from './pages/StudentAssignments';
 import TeacherAssignments from './pages/TeacherAssignments';
-
-
+import Popup from './components/popup';
 import Doubts from './pages/Doubts'; 
 
 // Inside <Routes> in App.jsx
@@ -18,9 +17,10 @@ function App() {
   return (
     
       <div>
-
+        
         <BrowserRouter>
         <Navbar/>
+        <Popup/> 
         <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/doubts" element={<Doubts />} />
