@@ -345,31 +345,33 @@ const Doubts = () => {
       <div className="max-w-3xl mx-auto bg-white rounded-lg shadow p-6 flex flex-col">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">💬 Doubts Chat</h2>
 
-        <div className="flex gap-2 mb-4">
+        {/* Submit New Doubt */}
+        <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
           <input
             type="text"
             value={newDoubt}
             onChange={(e) => setNewDoubt(e.target.value)}
-            className="flex-1 border rounded p-2"
+            className="flex-1 border rounded p-2 text-gray-800"
             placeholder="Type your doubt..."
+            required
           />
           <button
-            onClick={handleSubmit}
+            type="submit"
             className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
           >
             Ask
           </button>
-        </div>
+        </form>
 
-        {/* Chat Container */}
+        {/* Chat Messages */}
         <div className="flex flex-col gap-6 overflow-y-auto max-h-[600px] pr-2">
           {doubts.map((doubt) => (
             <div key={doubt._id} className="space-y-3">
               {/* Question Bubble */}
               <div className="flex justify-start">
                 <div className="bg-indigo-200 px-4 py-2 rounded-xl rounded-tl-none max-w-[75%] shadow text-gray-800">
-                  <p className="text-sm font-semibold">
-                    {doubt.askedBy?.email || "Student"}:
+                  <p className="text-sm font-semibold text-indigo-700">
+                    🧑‍🎓 {doubt.askedBy?.email || "Student"}:
                   </p>
                   <p>{doubt.question}</p>
                 </div>
@@ -379,8 +381,8 @@ const Doubts = () => {
               {doubt.replies?.map((reply, idx) => (
                 <div key={idx} className="flex justify-end">
                   <div className="bg-green-100 px-4 py-2 rounded-xl rounded-tr-none max-w-[75%] shadow text-gray-800">
-                    <p className="text-sm font-semibold">
-                      {reply.repliedBy?.email || "Teacher"}:
+                    <p className="text-sm font-semibold text-green-700">
+                      👤 {reply.repliedBy?.email || "User"}:
                     </p>
                     <p>{reply.message}</p>
                   </div>
@@ -388,11 +390,11 @@ const Doubts = () => {
               ))}
 
               {/* Reply Input */}
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center mt-1">
                 <input
                   type="text"
                   placeholder="Reply to this doubt..."
-                  className="flex-1 border rounded px-3 py-1"
+                  className="flex-1 border rounded px-3 py-1 text-gray-800"
                   value={replyInputs[doubt._id] || ""}
                   onChange={(e) =>
                     handleReplyChange(doubt._id, e.target.value)
@@ -414,3 +416,4 @@ const Doubts = () => {
 };
 
 export default Doubts;
+
