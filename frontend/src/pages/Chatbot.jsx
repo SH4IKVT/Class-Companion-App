@@ -66,7 +66,7 @@ export default function Chatbox({ onClose }) {
       {/* Header */}
       <div className="flex justify-between items-center bg-indigo-600 text-white px-4 py-3 rounded-tl-2xl">
         <h3 className="text-lg font-semibold">🤖 Doubt Assistant</h3>
-        <button onClick={onClose} className="text-xl hover:text-red-300">✖</button>
+        <button onClick={onClose} className="text-xl hover:text-red-300 border !p-1 !px-3 !rounded-xl !bg-transparent">✖</button>
       </div>
 
       {/* Chat Area */}
@@ -101,7 +101,7 @@ export default function Chatbox({ onClose }) {
           onChange={(e) => setCurInp(e.target.value)}
           placeholder="Write your doubt here..."
           required
-          className="flex-1 px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 px-4 py-2 border text-black rounded-xl focus:outline-none focus:ring-2 border-gray-400 focus:ring-blue-500"
         />
         <button
           type="submit"

@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { userAtom } from '../lib/atom'
-import Chatbox from "Chatbox";
-
-
+import Chatbox from "./Chatbot";
 
 const Doubts = () => {
   const [doubts, setDoubts] = useState([]);
   const [newDoubt, setNewDoubt] = useState("");
   const [replyInputs, setReplyInputs] = useState({});
   const [isBotOpen, setIsBotOpen] = useState(false);
+  const [showBot, setShowBot] = useState(false);
 
   const [user] = useAtom(userAtom);
   const fetchDoubts = async () => {
@@ -153,7 +152,7 @@ const Doubts = () => {
       <div className="fixed bottom-6 right-6 z-50">
         <button
           onClick={() => setShowBot(true)}
-          className="bg-indigo-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-indigo-700"
+          className="!bg-indigo-600 !text-white !rounded-full w-14 h-14 !flex !items-center !justify-center !shadow-lg !hover:bg-indigo-700"
           title="Ask Chatbot"
         >
           🤖
