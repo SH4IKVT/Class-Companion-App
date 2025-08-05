@@ -4,7 +4,7 @@ import { FiFileText, FiCalendar, FiUpload } from "react-icons/fi";
 export default function AnnouncementUploadForm({ onUpload }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [deadline, setDeadline] = useState("");
+  const [deadline, setDeadline] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,9 +16,9 @@ export default function AnnouncementUploadForm({ onUpload }) {
   };
 
   const baseInput = `
-    w-full p-4 bg-white text-[#2D2D34]
-    rounded-xl border border-[#E4E7EB]
-    focus:outline-none focus:ring-2 focus:ring-[#6B73FF]
+    // w-full p-4 bg-white text-[#2D2D34]
+    // rounded-xl border border-[#E4E7EB]
+    // focus:outline-none focus:ring-2 focus:ring-[#6B73FF]
   `;
 
   return (
@@ -46,7 +46,7 @@ export default function AnnouncementUploadForm({ onUpload }) {
       />
 
       <div className="relative">
-        <FiCalendar className="absolute left-4 top-4 text-[#FF6F91] text-xl" />
+        <FiCalendar className="absolute right-4 pointer-events-none top-4 text-[#FF6F91] text-xl" />
         <input
           type="date"
           value={deadline}

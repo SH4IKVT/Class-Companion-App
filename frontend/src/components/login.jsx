@@ -29,6 +29,8 @@ function Login() {
       //change it to the /dashboard
       navigate('/home');
     } catch (err) {
+      console.log(err);
+      
       setError(err?.response?.data?.message || 'Failed to connect to the server. Please try again.');
     }
   };

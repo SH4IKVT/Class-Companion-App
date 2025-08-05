@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Announcement = require('../models/Announcement');
 const verifyJwt = require('../middleware/verifyJwt');
+const sendNotification = require('../lib/sendNotification');
 
 // GET /announcements/all
 router.get('/all', verifyJwt, async (req, res) => {
@@ -28,16 +29,7 @@ router.post('/upload', verifyJwt, async (req, res) => {
 
   try {
     const ann = await Announcement.create({ title, content, deadline });
-   // Emit to all connected clients (or a specific room if you join them)
-    req.io.emit('newAnnouncement', {
-      id:       ann._id,
-      title:    ann.title,
-      content:  ann.content,
-      deadline: ann.deadline,
-      date:     ann.createdAt
-      // classId: ann.classId
-    });
-
+   sendNotification("Announcement", `New announcement: ${title}`, ann._id, req.user);
     res.status(201).json(ann);
   } catch (err) {
     console.error(err);
