@@ -27,13 +27,15 @@ function Login() {
       setLog(true);
       setUser(data.user);
       //change it to the /dashboard
-      navigate('/home');
+      navigate('/dashboard');
     } catch (err) {
+      console.log(err);
+      
       setError(err?.response?.data?.message || 'Failed to connect to the server. Please try again.');
     }
   };
   if (user) {
-    return navigate('/home');
+    return navigate('/dashboard');
   }
   return (
     <div className="min-h-screen w-screen bg-gradient-to-b from-neutral-900 via-neutral-950 to-black flex items-center justify-center">

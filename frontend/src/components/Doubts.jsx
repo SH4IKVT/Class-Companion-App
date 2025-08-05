@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useAtom } from "jotai";
+import { userAtom } from "../lib/atom";
 
 
 const Doubts = () => {

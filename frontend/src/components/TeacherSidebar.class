@@ -1,0 +1,53 @@
+import React from "react";
+import {
+  LayoutDashboard,
+  FilePlus,
+  ClipboardList,
+  BookOpen,
+  MessageCircle,
+  Megaphone,
+  UserCircle,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+
+const TeacherSidebar = () => {
+  return (
+    <aside className="bg-white w-full md:w-64 h-full shadow-md border-r border-gray-200 px-4 py-6 sticky top-0">
+      <h2 className="text-xl font-bold text-blue-600 mb-6 text-center">Teacher Panel</h2>
+      
+      <nav className="space-y-4">
+        <Link to="/teacher-dashboard" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 font-medium">
+          <LayoutDashboard size={20} />
+          Dashboard
+        </Link>
+
+        <Link to="/post-announcement" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 font-medium">
+          <Megaphone size={20} />
+          Post Announcement
+        </Link>
+
+        <Link to="/post-assignment" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 font-medium">
+          <ClipboardList size={20} />
+          Post Assignment
+        </Link>
+
+        <Link to="/post-notes" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 font-medium">
+          <BookOpen size={20} />
+          Post Notes
+        </Link>
+
+        <Link to="/solve-doubts" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 font-medium">
+          <MessageCircle size={20} />
+          Solve Doubts
+        </Link>
+
+        <Link to="/teacher-profile" className="flex items-center gap-3 text-gray-700 hover:text-blue-600 font-medium">
+          <UserCircle size={20} />
+         TeacherProfileCard 
+        </Link>
+      </nav>
+    </aside>
+  );
+};
+
+export default TeacherSidebar;

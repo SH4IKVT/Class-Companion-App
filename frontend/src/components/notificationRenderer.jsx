@@ -17,9 +17,9 @@ export default function NotificationRenderer({ notificationOpen, notificationsAr
                 Navigate(`/${user?.type.toLowerCase()}/assignments`)
             }else if (notification.type.toString().toLowerCase() === "note") {                
                 Navigate(`/notes`)
-            }else{
-
-            }
+            }else if(notification.type.toString().toLowerCase() === "announcement"){
+                Navigate(`/announcements`)
+            }else{}
         }
     }
     const handleMarkAsRead = async (e, notification) => {

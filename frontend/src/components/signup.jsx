@@ -47,7 +47,7 @@ function Signup() {
         }
     };
     if (user) {
-        return navigate('/home');
+        return navigate('/dashboard');
     }
     return (
         <div className="min-h-screen w-screen bg-gradient-to-b from-neutral-900 via-neutral-950 to-black flex items-center justify-center">
