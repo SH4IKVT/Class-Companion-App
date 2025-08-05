@@ -1,9 +1,7 @@
 const notificationRouter = require('express').Router();
 const getNotifications = require('../controllers/getNotificationController');
 const createNotifications = require('../controllers/createNotificationController');
-const verifyJwt=require('../middleware/verifyjwt');
-notificationRouter.get('/',verifyJwt(req,res)=>{
-  
-}, getNotifications);
-notificationRouter.post('/', createNotifications);
+const checkToken=require('../middleware/verifyJwt');
+notificationRouter.get('/',checkToken, getNotifications);
+notificationRouter.post('/',checkToken ,createNotifications);
 module.exports = notificationRouter;
