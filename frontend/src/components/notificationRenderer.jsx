@@ -40,7 +40,11 @@ export default function NotificationRenderer({ notificationOpen, notificationsAr
             }
             // push notification to dedicated page
         } catch (error) {
-            console.log(error);
+            if(error.response?.status===401){
+                alert("session expired, login again");
+                Navigate('/login');
+            }else{
+            console.log(error);}
         }
     }
     return (
