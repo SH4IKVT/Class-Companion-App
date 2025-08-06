@@ -16,7 +16,6 @@ const connectSocket = async (setNotification, setNotificationArr, setBellCount, 
         setNotificationArr(prev => {
             isNew = prev.length === 0 || prev[prev.length - 1]._id !== data._id;
             if (isNew) {
-                setBellCount(prev.length + 1); 
                 return [...prev, data];
             }
             return prev;

@@ -72,7 +72,11 @@ export default function Navbar() {
             });
         }
     }, [bellCount, animate, scope]);
-
+    useEffect(() => {
+        setBellCount(e=>{
+            return notificationsArr.filter(e=>!e.isRead).length
+        });
+    },[notificationsArr]);
     const navLinkClass = ({ isActive }) =>
         `!text-white font-medium hover:!text-yellow-300 transition-colors duration-200 border-b-2 ${
             isActive ? 'border-yellow-300' : 'border-transparent'

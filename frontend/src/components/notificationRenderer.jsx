@@ -11,7 +11,7 @@ export default function NotificationRenderer({ notificationOpen, notificationsAr
     const handleNotificationClick = (e, notification) => {
         {
             handleMarkAsRead(e, notification)
-            if (notification.type.toString().toLowerCase() === "doubt") {
+            if (notification.type.toString().toLowerCase() === "reply to doubt") {
                 Navigate(`/doubts`)
             }else if (notification.type.toString().toLowerCase() === "assignment") {
                 Navigate(`/${user?.type.toLowerCase()}/assignments`)
@@ -19,6 +19,8 @@ export default function NotificationRenderer({ notificationOpen, notificationsAr
                 Navigate(`/notes`)
             }else if(notification.type.toString().toLowerCase() === "announcement"){
                 Navigate(`/announcements`)
+            }else if(notification.type.toString().toLowerCase() === "doubt submitted"){
+                Navigate(`/doubts`)
             }else{}
         }
     }
