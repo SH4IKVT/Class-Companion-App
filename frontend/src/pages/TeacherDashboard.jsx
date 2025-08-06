@@ -15,7 +15,7 @@ const TeacherDashboard = () => {
       {/* Topbar */}
       {/* <TeacherTopbar /> */}
 
-      <div className="flex flex-col items-center justify-center md:flex-row flex-1">
+      <div className="flex flex-col h-screen items-center justify-center md:flex-row flex-1">
         {/* Sidebar */}
         {/* <TeacherSidebar /> */}
 

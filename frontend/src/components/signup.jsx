@@ -50,21 +50,20 @@ function Signup() {
         return navigate('/dashboard');
     }
     return (
-        <div className="min-h-screen w-screen bg-gradient-to-b from-neutral-900 via-neutral-950 to-black flex items-center justify-center">
-            <form onSubmit={handleSubmit} className="bg-black shadow-[0_0_10px_#f0f,0_0_20px_#f0f] p-10 rounded w-full max-w-sm flex flex-col gap-4">
-                <h2 className="text-white text-2xl font-bold text-center">Sign Up</h2>
+        <div className="min-h-[95vh] w-screen bg-gradient-to-br from-[#fafafa] to-[#dce7dd] flex items-center justify-center">
+            <form onSubmit={handleSubmit} className="bg-black/5 shadow-xl shadow-gray-400/70 p-10 rounded-2xl w-full max-w-sm flex flex-col gap-4">
+                <h2 className="text-black text-2xl font-bold text-center">Sign Up</h2>
                 
                 {error && (
                     <div className="text-red-500 text-center">{error}</div>
                 )}
-
                 <input
                     type="text"
                     placeholder="Username"
                     required
                     value={username}
                     onChange={(e) => setName(e.target.value)}
-                    className="px-4 py-2 rounded border text-white bg-transparent"
+                    className="px-4 py-2 rounded-lg border text-black bg-transparent"
                 />
                 <input
                     type="email"
@@ -72,7 +71,7 @@ function Signup() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="px-4 py-2 rounded border text-white bg-transparent"
+                    className="px-4 py-2 rounded-lg border text-black bg-transparent"
                 />
                 <input
                     type="password"
@@ -80,7 +79,7 @@ function Signup() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="px-4 py-2 rounded border text-white bg-transparent"
+                    className="px-4 py-2 rounded-lg border text-black bg-transparent"
                 />
                 <input
                     type="password"
@@ -88,19 +87,19 @@ function Signup() {
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfpassword(e.target.value)}
-                    className="px-4 py-2 rounded border text-white bg-transparent"
+                    className="px-4 py-2 rounded-lg border text-black bg-transparent"
                 />
 
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="py-2 px-4 rounded border shadow-md bg-white text-black hover:bg-gray-200 transition disabled:opacity-50"
+                    className="py-2 px-4 rounded border shadow-md bg-white text-white hover:bg-gray-200 transition disabled:opacity-50"
                 >
                     {isLoading ? 'Registering...' : 'Register'}
                 </button>
 
-                <p className="text-white text-center">
-                    Already have an account? <Link to="/login" className="text-purple-400 hover:underline">Login</Link>
+                <p className="text-black text-center">
+                    Already have an account? <Link to="/login" className="text-purple-400 hover:underline ml-2">Login</Link>
                 </p>
             </form>
         </div>

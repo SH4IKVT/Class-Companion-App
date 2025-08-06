@@ -20,7 +20,7 @@ const StudentDashboard = () => {
    
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50">
-        <div className="w-full  md:w-3/4 p-6 space-y-6">
+        <div className="w-full h-screen  md:w-3/4 p-6 space-y-6">
           <ProfileCard/>
           <DashboardCards />
           {/* <div className="grid md:grid-cols-2 gap-4">

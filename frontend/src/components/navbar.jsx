@@ -31,7 +31,12 @@ export default function Navbar() {
             console.log(error);
         }
     };
-
+    useEffect(() => {
+        if (!user) {
+            setNotificationsArr([]);
+            setNotificationOpen(false);
+        }
+    }, [user]);
     useEffect(() => {
         const checkUser = async () => {
             try {

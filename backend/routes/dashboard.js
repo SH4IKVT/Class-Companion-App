@@ -21,7 +21,7 @@ router.get('/', async(req, res) => {
     }
     if(req.user.type === 'teacher') {
         const dashboardData = await Promise.all([
-            Assignment.find({ uploader: req.user.userId }),
+            Assignment.find(),
             Doubt.find(),
             Note.find(),
             Announcement.find(),
