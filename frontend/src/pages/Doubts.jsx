@@ -36,6 +36,8 @@ const Doubts = () => {
       body: JSON.stringify({ question: newDoubt }),
     });
     const data = await res.json();
+    console.log(data);
+    
     setDoubts([data, ...doubts]);
     setNewDoubt("");
   };

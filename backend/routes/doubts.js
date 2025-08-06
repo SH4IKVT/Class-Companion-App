@@ -21,13 +21,18 @@ router.get("/", verifyJwt, async (req, res) => {
 router.post("/", verifyJwt, async (req, res) => {
   const { question } = req.body;
   try {
-    const doubt = new Doubt({
-      question,
-      askedBy: req.user.userId,
-    });
-    await doubt.save();
+   const doubt = new Doubt({
+  question,
+  askedBy: req.user.userId,
+});
+await doubt.save();
+
+const populatedDoubt = await Doubt.findById(doubt._id)
+  .populate("askedBy", "email")
+  .populate("replies.repliedBy", "email");
+    
     sendNotification("Doubt submitted", question, doubt._id, req.user);
-    res.status(201).json(doubt);
+    res.status(201).json(populatedDoubt);
   } catch (err) {
     console.log(err);
     
