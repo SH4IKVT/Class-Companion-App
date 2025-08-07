@@ -12,7 +12,7 @@ const Footer = () => {
     >
       <div className="max-w-6xl mx-auto px-4 text-center">
         <p className="text-sm mb-3">
-          &copy; {new Date().getFullYear()} Class Companion. All rights reserved. Built with ❤️ by Riddhi Arora
+          &copy; {new Date().getFullYear()} Class Companion. All rights reserved. Built with ❤️ by Udaan
         </p>
 
         <div className="flex justify-center gap-6 mt-2 text-xl">
@@ -30,5 +30,6 @@ const Footer = () => {
     </motion.footer>
   );
 };
+
 
 export default Footer;
