@@ -10,7 +10,8 @@ Welcome to **Class Companion**, a web-based application that bridges the gap bet
   - Upload, manage, and track class assignments with ease.
   
 - **❓ Doubts Section**
-  - Students can post doubts and receive replies from peers or teachers.
+  - Students can post doubts and receive replies from peers or teachers.<br>
+  - Live AI bot assistance for doubt solving.
   
 - **💬 Notes**
   - Students can share their notes for collaborative learning.
