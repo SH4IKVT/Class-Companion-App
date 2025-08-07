@@ -21,7 +21,7 @@ const ContactSection = () => {
         {/* Email with Icon */}
         <div className="flex justify-center items-center gap-2 mb-8 text-gray-700 text-base sm:text-lg font-medium">
           <Mail className="w-5 h-5 text-orange-500" />
-          ariddhi835@gmail.com 
+          udaan1234@gmail.com 
         </div>
 
         {/* Get in Touch Button */}
@@ -50,5 +50,6 @@ const ContactSection = () => {
     </section>
   );
 };
+
 
 export default ContactSection;
