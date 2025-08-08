@@ -14,7 +14,7 @@ router.get('/', async(req, res) => {
             Announcement.find(),
         ])
 
-       res.status(200).json({dashboard:[{title: "Assignments", count: dashboardData[0].length},
+       return res.status(200).json({dashboard:[{title: "Assignments", count: dashboardData[0].length},
             {title: "Doubts", count: dashboardData[1].length},
             {title: "Notes", count: dashboardData[2].length},
             {title: "Announcements", count: dashboardData[3].length},]})
