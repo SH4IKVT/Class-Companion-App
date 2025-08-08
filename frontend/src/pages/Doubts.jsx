@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { userAtom } from '../lib/atom'
+import { userAtom } from "../lib/atom";
 import Chatbox from "./Chatbot";
 
 const Doubts = () => {
   const [doubts, setDoubts] = useState([]);
   const [newDoubt, setNewDoubt] = useState("");
   const [replyInputs, setReplyInputs] = useState({});
-  const [isBotOpen, setIsBotOpen] = useState(false);
   const [showBot, setShowBot] = useState(false);
 
   const [user] = useAtom(userAtom);
+
   const fetchDoubts = async () => {
     try {
       const res = await fetch("http://localhost:4080/api/doubts", {
@@ -36,8 +36,6 @@ const Doubts = () => {
       body: JSON.stringify({ question: newDoubt }),
     });
     const data = await res.json();
-    console.log(data);
-    
     setDoubts([data, ...doubts]);
     setNewDoubt("");
   };
@@ -65,108 +63,99 @@ const Doubts = () => {
   };
 
   return (
-    <div className="min-h-screen bg-indigo-100 px-4 py-6">
-      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow p-6 flex flex-col">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-          💬 Doubts Chat
-        </h2>
+    <div className="min-h-screen bg-gradient-to-br from-[#FFF8E1] to-[#FFE0B2] p-12">
+      <h1 className="text-5xl font-extrabold text-[#F98F30] mb-8 text-center">
+        Doubts & Discussions
+      </h1>
 
-        {/* New Question */}
-        {
-          user?.type === "student" && (
-            <div className="border border-black/10 p-4 px-6 mb-6 rounded-xl bg-zinc-800/5 shadow-xl shadow-zinc-500/20">
-              <h6 className="text-2xl font-bold mb-4 text-center text-gray-800">Ask a Doubt</h6>
-              <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
-                <input
-                  type="text"
-                  value={newDoubt}
-                  onChange={(e) => setNewDoubt(e.target.value)}
-                  className="flex-1 text-black border border-black rounded-xl ho p-2"
-                  placeholder="Type your doubt..."
-                  required
-                />
-                <button
-                  type="submit"
-                  className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-                >
-                  Ask
-                </button>
-              </form>
+      {/* Ask a Doubt Form */}
+      {user?.type === "student" && (
+        <div className="bg-white shadow-lg rounded-xl p-6 mb-12 max-w-3xl mx-auto">
+          <h2 className="text-xl font-bold mb-4 text-[#FF8F00]">Ask a New Doubt</h2>
+          <form onSubmit={handleSubmit} className="flex gap-2">
+            <input
+              type="text"
+              value={newDoubt}
+              onChange={(e) => setNewDoubt(e.target.value)}
+              className="flex-1 text-black border border-gray-300 rounded-xl p-2"
+              placeholder="Type your doubt..."
+              required
+            />
+            <button
+              type="submit"
+              className="bg-[#FB8C00] text-white px-6 py-2 rounded-xl hover:bg-[#EF6C00]"
+            >
+              Ask
+            </button>
+          </form>
+        </div>
+      )}
+
+      {/* Doubts List */}
+      <div className="space-y-8 max-w-3xl mx-auto">
+        {doubts.map((doubt) => (
+          <div key={doubt._id} className="bg-white shadow-md p-6 rounded-xl space-y-4">
+            {/* Question */}
+            <div>
+              <p className="text-[#FB8C00] font-semibold">
+                🧑‍🎓 {doubt.askedBy?.username || doubt.askedBy?.email || "Student"} asked:
+              </p>
+              <p className="text-gray-800 mt-1">{doubt.question}</p>
             </div>
-          )
-        }
 
-        {/* Doubts + Replies */}
-        <div className="flex flex-col gap-6 pr-2">
-          {doubts.map((doubt) => (
-            <div key={doubt._id} className="space-y-3">
-              {/* Question */}
-              <div className="flex justify-start">
-                <div className="bg-indigo-200 px-4 py-2 rounded-xl rounded-tl-none max-w-[75%] shadow text-gray-800">
-                  <p className="text-sm font-semibold text-indigo-700">
-                    🧑‍🎓 {doubt.askedBy?.email || "Student"}:
-                  </p>
-                  <p>{doubt.question}</p>
-                </div>
+            {/* Replies */}
+            {doubt.replies?.map((reply, idx) => (
+              // <div key={idx} className="ml-4 bg-[#E0F2F1] p-3 rounded-lg shadow border-l-4 border-[#43A047]">
+              <div key={idx} className="ml-4 bg-[#F1F8E9] p-3 rounded-lg shadow border-l-4 border-[#43A047]">
+                <p className="text-[#388E3C] font-semibold">
+                  👤 {reply.repliedBy?.username || reply.repliedBy?.email || "User"} replied:
+                </p>
+                <p className="text-gray-800">{reply.message}</p>
               </div>
+            ))}
 
-              {/* Replies */}
-              {doubt.replies?.map((reply, idx) => (
-                <div key={idx} className="flex justify-end">
-                  <div className="bg-green-100 px-4 py-2 rounded-xl rounded-tr-none max-w-[75%] shadow text-gray-800">
-                    <p className="text-sm font-semibold text-green-700">
-                      👤 {reply.repliedBy?.email || "Teacher"}:
-                    </p>
-                    <p>{reply.message}</p>
-                  </div>
-                </div>
-              ))}
-
-              {/* Reply input */}
-              {
-                user?.type === "teacher" && (
-                                <form action="" onSubmit={e=>e.preventDefault()}>
-
-              <div className="flex gap-2 items-center">
+            {/* Reply Box (Teacher only) */}
+            {user?.type === "teacher" && (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleReply(doubt._id);
+                }}
+                className="flex gap-2"
+              >
                 <input
                   type="text"
                   placeholder="Reply to this doubt..."
-                  className="flex-1 border rounded px-3 py-1 text-gray-800"
+                  className="flex-1 border border-gray-300 rounded p-2 text-black"
                   value={replyInputs[doubt._id] || ""}
-                  onChange={(e) =>
-                    handleReplyChange(doubt._id, e.target.value)
-                  }
-                  />
+                  onChange={(e) => handleReplyChange(doubt._id, e.target.value)}
+                />
                 <button
-                  onClick={() => handleReply(doubt._id)}
-                  className="bg-indigo-500 text-white px-3 py-1 rounded hover:bg-indigo-600"
-                  >
+                  type="submit"
+                  className="bg-[#43A047] text-white px-4 rounded hover:bg-[#388E3C]"
+                >
                   Reply
                 </button>
-              </div>
-                  </form>
-                )
-              }
-            </div>
-          ))}
-        </div>
+              </form>
+            )}
+          </div>
+        ))}
       </div>
+
+      {/* Chatbot FAB */}
       <div className="fixed bottom-6 right-6 z-50">
         <button
           onClick={() => setShowBot(true)}
-          className="!bg-indigo-600 !text-white !rounded-full w-14 h-14 !flex !items-center !justify-center !shadow-lg !hover:bg-indigo-700"
+          className="bg-[#FF8F00] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-[#EF6C00]"
           title="Ask Chatbot"
         >
-          🤖
+        🤖
         </button>
       </div>
 
-      {/* Chatbox Modal */}
       {showBot && <Chatbox onClose={() => setShowBot(false)} />}
     </div>
-
   );
 };
 
 export default Doubts;
-
