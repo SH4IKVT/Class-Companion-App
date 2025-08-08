@@ -32,7 +32,20 @@ Welcome to **Class Companion**, a web-based application that bridges the gap bet
 ## 📷 Preview
 
 <!-- Optional: Add an image and replace the path below -->
-![App Screenshot](assets/screenshot.png)
+### 📍 Landing Page
+![Landing Page](Screenshots/Landing_page.png)
+
+### 📌 Announcements
+![Announcements](Screenshots/Announcement.png)
+
+### ❓ Doubts Section
+![Doubts](Screenshots/Doubts.png)
+
+### 📝 Assignments
+![Assignments](Screenshots/Assignment.png)
+
+### 📚 Notes Section
+![Notes](Screenshots/Notes.png)
 
 ---
 
