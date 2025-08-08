@@ -1,3 +1,4 @@
+const WebSocket = require('ws');
 const Notification = require("../models/notification");
 const WsStore = require("./wsStore");
 
