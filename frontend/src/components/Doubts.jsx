@@ -1,117 +1,87 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useAtom } from "jotai";
-import { userAtom } from "../lib/atom";
+import React, { useState } from "react";
+import { HelpCircle } from "lucide-react"; // icon import
 
+const DoubtSection = () => {
+  const [doubts, setDoubts] = useState([
+    {
+      question: "What is a semaphore?",
+      date: "2025-07-25",
+      status: "Unresolved",
+    },
+    {
+      question: "Difference between SQL and NoSQL?",
+      date: "2025-07-24",
+      status: "Resolved",
+    },
+  ]);
 
-const Doubts = () => {
-  const [doubts, setDoubts] = useState([]);
-  const [newQuestion, setNewQuestion] = useState("");
-  const [replyInputs, setReplyInputs] = useState({});
-  const [user, setUser] = useAtom(userAtom);
-  const fetchDoubts = async () => {
-    try {
-      const res = await axios.get("http://localhost:4080/doubts", {
-        withCredentials: true,
-      });
-      setDoubts(res.data);
-    } catch (err) {
-      console.error("Failed to load doubts", err);
-    }
+  const [newDoubt, setNewDoubt] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (newDoubt.trim() === "") return;
+
+    const newEntry = {
+      question: newDoubt,
+      date: new Date().toISOString().split("T")[0],
+      status: "Unresolved",
+    };
+
+    setDoubts([newEntry, ...doubts]);
+    setNewDoubt("");
   };
 
-  useEffect(() => {
-    fetchDoubts();
-  }, []);
-
-  const handleAsk = async () => {
-    if (!newQuestion.trim()) return;
-    try {
-      await axios.post(
-        "http://localhost:4080/doubts",
-        { question: newQuestion },
-        { withCredentials: true }
-      );
-      setNewQuestion("");
-      fetchDoubts();
-    } catch (err) {
-      console.error("Failed to submit doubt", err);
-    }
-  };
-
-  const handleReply = async (id) => {
-    const message = replyInputs[id];
-    if (!message?.trim()) return;
-
-    try {
-      await axios.post(
-        `http://localhost:4080/doubts/${id}/reply`,
-        { message },
-        { withCredentials: true }
-      );
-      setReplyInputs((prev) => ({ ...prev, [id]: "" }));
-      fetchDoubts();
-    } catch (err) {
-      console.error("Failed to reply", err);
-    }
-  };
-  useEffect(() => {
-    console.log(user);
-    
-  },[user])
   return (
-    <div className="max-w-4xl mx-auto p-4 bg-indigo-100 min-h-screen">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-4">Ask a Doubt</h1>
-
-      
-      <div className="space-y-6">
-        {doubts.map((doubt) => (
-          <div
-            key={doubt._id}
-            className="bg-white p-4 rounded shadow hover:bg-indigo-50"
-          >
-            <p className="text-gray-800 font-medium">
-              {doubt.askedBy?.email || "Anonymous"} asked:
-            </p>
-            <p className="text-gray-700 mt-1">{doubt.question}</p>
-
-            {/* Replies */}
-            <div className="mt-3 pl-4 border-l-2 border-indigo-300 space-y-2">
-              {doubt.replies?.map((reply, idx) => (
-                <div key={idx} className="text-sm text-gray-700">
-                  <span className="font-semibold text-indigo-600">
-                    {reply.repliedBy?.email || "Anonymous"}:
-                  </span>{" "}
-                  {reply.message}
-                </div>
-              ))}
-            </div>
-
-            {/* Reply box */}
-            <div className="mt-3 flex gap-2">
-              <input
-                className="flex-1 p-1 border rounded"
-                placeholder="Write a reply..."
-                value={replyInputs[doubt._id] || ""}
-                onChange={(e) =>
-                  setReplyInputs((prev) => ({
-                    ...prev,
-                    [doubt._id]: e.target.value,
-                  }))
-                }
-              />
-              <button
-                className="bg-indigo-600 text-white px-3 py-1 rounded"
-                onClick={() => handleReply(doubt._id)}
-              >
-                Reply
-              </button>
-            </div>
-          </div>
-        ))}
+    <div className="bg-white p-4 shadow rounded-2xl mb-4">
+      {/* Title with icon */}
+      <div className="flex items-center space-x-2 mb-3">
+        <HelpCircle className="text-blue-500" size={24} />
+        <h2 className="text-xl font-semibold">Ask a Doubt</h2>
       </div>
+
+      {/* Doubt input box */}
+      <form onSubmit={handleSubmit} className="mb-4">
+        <textarea
+          value={newDoubt}
+          onChange={(e) => setNewDoubt(e.target.value)}
+          placeholder="Type your doubt here..."
+          className="w-full p-3 border rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          rows={3}
+        />
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Post Doubt
+        </button>
+      </form>
+
+      {/* Previous doubts list */}
+      <h3 className="text-lg font-semibold mb-2">Previous Doubts</h3>
+      <ul className="space-y-3">
+        {doubts.map((item, index) => (
+          <li
+            key={index}
+            className="border p-3 rounded-lg hover:shadow transition"
+          >
+            <p className="font-medium">{item.question}</p>
+            <p className="text-sm text-gray-600">
+              Date: {item.date} | Status:{" "}
+              <span
+                className={`font-semibold ${
+                  item.status === "Resolved"
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
+                {item.status}
+              </span>
+            </p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default Doubts;
+export default DoubtSection;

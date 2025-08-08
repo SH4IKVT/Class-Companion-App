@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   BookOpen,
   FileText,
   Bell,
   HelpCircle,
 } from "lucide-react";
-import axios from "axios";
 
-const iconData = [
+const data = [
   {
     title: "Assignments",
     value: 5,
@@ -39,40 +38,18 @@ const iconData = [
 ];
 
 const DashboardCards = () => {
-  const [data, setData] = React.useState([]);
-  const getStudentData = async () => {
-    try {
-      const res = await axios.get("http://localhost:4080/dashboard", {
-        withCredentials: true,
-      });
-      console.log();
-      setData(res.data.dashboard);
-      
-    } catch (error) {
-      if (error.response.status === 401) {
-        navigate("/");
-      }
-    }
-  };
-  useEffect(() => {
-    console.log(data);
-    
-  },[data])
-  useEffect(() => {
-    getStudentData();
-  },[])
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-      {data&& data.map((item,index) => (
+      {data.map((item) => (
         <div
-          key={index}
-          className={'flex items-center justify-between p-4 rounded-2xl shadow ${item.bg} hover:scale-[1.02] transition-transform duration-200 text-black'}
+          key={item.title}
+          className={'flex items-center justify-between p-4 rounded-2xl shadow ${item.bg} hover:scale-[1.02] transition-transform duration-200'}
         >
           <div>
             <h3 className={'text-lg font-semibold ${item.text}'}>{item.title}</h3>
-            <p className={'text-2xl font-bold ${item.text}'}>{item.count}</p>
+            <p className={'text-2xl font-bold ${item.text}'}>{item.value}</p>
           </div>
-          <div>{iconData[index].icon}</div>
+          <div>{item.icon}</div>
         </div>
       ))}
     </div>

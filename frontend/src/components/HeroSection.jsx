@@ -1,9 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
-  const navigate = useNavigate();
   return (
     <section className="bg-blue-50 py-20">
       <div className="max-w-7xl mx-auto px-6 flex flex-col-reverse md:flex-row items-center gap-12">
@@ -34,8 +32,8 @@ const HeroSection = () => {
             Track assignments, share notes, resolve doubts, and receive announcements.
           </motion.p>
 
-          <motion.button onClick={e=>navigate("/signup")}
-            className="!bg-orange-500 hover:!bg-orange-600 text-white font-semibold px-6 py-3 rounded-lg transition shadow"
+          <motion.button
+            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-lg transition shadow"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7, duration: 0.4 }}
